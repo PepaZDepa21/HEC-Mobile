@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HEC_Mobile.MainPage">
+    <StackLayout BackgroundColor="#F5F0F6">
+        <Label Text="Recipes" HorizontalOptions="CenterAndExpand" Margin="20" FontSize="Medium" TextColor="#2E282A"/>
+        <ListView x:Name="RecipesList" SeparatorVisibility="None" Margin="15, 0, 15, 25">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="60" />
+                                <ColumnDefinition Width="60" />
+                                <ColumnDefinition Width="75" />
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0" Text="{Binding Name}"  VerticalTextAlignment="Center" TextColor="#2E282A"/>
+                            <Button x:Name="BtnRead" Grid.Column="1" Text="Read" BackgroundColor="#C4B7CB" TextColor="#2E282A" Padding="5, 7" Margin="5, 7" FontSize="Micro" FontAttributes="Bold" Clicked="BtnReadClicked"/>
+                            <Button x:Name="BtnEdit" Grid.Column="2" Text="Edit" BackgroundColor="#C4B7CB" TextColor="#2E282A" Padding="5, 7" Margin="5, 7" FontSize="Micro" FontAttributes="Bold" Clicked="BtnEditClicked"/>
+                            <Button x:Name="BtnDelete" Grid.Column="3" Text="Delete" BackgroundColor="#C4B7CB" TextColor="#2E282A" Padding="5, 7" Margin="5, 7" FontSize="Micro" FontAttributes="Bold" Clicked="BtnDeleteClicked"/>
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <Grid Margin="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="11*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="11*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="11*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="11*"/>
+                </Grid.ColumnDefinitions>
+                <Entry x:Name="SearchEntry" Grid.Column="0" Grid.ColumnSpan="5" TextColor="#2E282A"/>
+                <Button Grid.Column="6" Text="Search" FontSize="Micro" FontAttributes="Bold" BackgroundColor="#C4B7CB" TextColor="#2E282A" Padding="5" Margin="5" Clicked="BtnSearchClicked"/>
+            </Grid>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="11*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="11*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="11*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="11*"/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Text="New Recipe" FontSize="Micro" FontAttributes="Bold" BackgroundColor="#C98BB9" TextColor="#2E282A" Padding="5" Margin="5" Clicked="BtnNewRecipeClicked"/>
+                <Button Grid.Column="2" Text="Import" FontSize="Micro" FontAttributes="Bold" BackgroundColor="#C98BB9" TextColor="#2E282A" Padding="5" Margin="5" Clicked="BtnImportClicked"/>
+                <Button Grid.Column="4" Text="Export" FontSize="Micro" FontAttributes="Bold" BackgroundColor="#C98BB9" TextColor="#2E282A" Padding="5" Margin="5" Clicked="BtnExportClicked"/>
+                <Button Grid.Column="6" Text="Random" FontSize="Micro" FontAttributes="Bold" BackgroundColor="#C98BB9" TextColor="#2E282A" Padding="5" Margin="5" Clicked="BtnRandomClicked"/>
+            </Grid>
+        </Grid>
+    </StackLayout>
+
+</ContentPage>

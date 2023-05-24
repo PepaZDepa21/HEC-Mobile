@@ -1,0 +1,35 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33627.172
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HEC Mobile.Android", "HEC Mobile\HEC Mobile.Android\HEC Mobile.Android.csproj", "{CBCF32DC-540C-44EA-81BE-91BC83FBFE96}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HEC Mobile", "HEC Mobile\HEC Mobile\HEC Mobile.csproj", "{2C9A3FD9-31DD-4CE9-9EE3-BEA6FD8AD3D4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CBCF32DC-540C-44EA-81BE-91BC83FBFE96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBCF32DC-540C-44EA-81BE-91BC83FBFE96}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBCF32DC-540C-44EA-81BE-91BC83FBFE96}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{CBCF32DC-540C-44EA-81BE-91BC83FBFE96}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBCF32DC-540C-44EA-81BE-91BC83FBFE96}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CBCF32DC-540C-44EA-81BE-91BC83FBFE96}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{2C9A3FD9-31DD-4CE9-9EE3-BEA6FD8AD3D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C9A3FD9-31DD-4CE9-9EE3-BEA6FD8AD3D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C9A3FD9-31DD-4CE9-9EE3-BEA6FD8AD3D4}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{2C9A3FD9-31DD-4CE9-9EE3-BEA6FD8AD3D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C9A3FD9-31DD-4CE9-9EE3-BEA6FD8AD3D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C9A3FD9-31DD-4CE9-9EE3-BEA6FD8AD3D4}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1D8A8FE7-3E52-4D05-8DEA-F8D8BB5323A9}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HEC_Mobile.EditRecipe">
+    <StackLayout BackgroundColor="#FFE9F3">
+        <Entry Text="" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" HorizontalTextAlignment="Center" Margin="20" FontSize="Medium" TextColor="#2E282A" WidthRequest="400"/>
+        <ListView x:Name="IngrediencesList" SeparatorVisibility="None" Margin="15, 0, 15, 25">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="5*"/>
+                                <ColumnDefinition Width="5" />
+                                <ColumnDefinition Width="30" />
+                                <ColumnDefinition Width="5" />
+                                <ColumnDefinition Width="5*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Entry Grid.Column="0" Text="{Binding Name}" TextColor="#2E282A"/>
+                            <Button Grid.Column="2" Text="-" TextColor="Red" BackgroundColor="#C98BB9" Padding="5" Margin="5" FontSize="Small" FontAttributes="Bold" Clicked="BtnRemoveIngredienceClicked"/>
+                            <Entry Grid.Column="4" Text="{Binding Description}" TextColor="#2E282A"/>
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <Editor x:Name="InstructionsEditor" Keyboard="Plain" AutoSize="TextChanges" HeightRequest="200"/>
+        <Grid Margin="10" HeightRequest="85">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="5*"/>
+                <ColumnDefinition Width="3"/>
+                <ColumnDefinition Width="30"/>
+                <ColumnDefinition Width="3"/>
+                <ColumnDefinition Width="5*"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" Text="Save" FontSize="Micro" FontAttributes="Bold" BackgroundColor="#C98BB9" TextColor="#2E282A" Padding="5" Margin="5" Clicked="BtnSaveClicked"/>
+            <Button Grid.Column="2" Text="+" FontSize="Small" FontAttributes="Bold" BackgroundColor="#C98BB9" TextColor="Lime" Padding="5" Margin="5" Clicked="BtnAddIngredienceClicked"/>
+            <Button Grid.Column="4" Text="Undo" FontSize="Micro" FontAttributes="Bold" BackgroundColor="#C98BB9" TextColor="#2E282A" Padding="5" Margin="5" Clicked="BtnUndoClicked"/>
+        </Grid>
+    </StackLayout>
+</ContentPage>
