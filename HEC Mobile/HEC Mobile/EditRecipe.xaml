@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="HEC_Mobile.EditRecipe">
     <StackLayout BackgroundColor="#FFE9F3">
-        <Entry Text="" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" HorizontalTextAlignment="Center" Margin="20" FontSize="Medium" TextColor="#2E282A" WidthRequest="400"/>
+        <Entry Text="{Binding Name}" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" HorizontalTextAlignment="Center" Margin="20" FontSize="Medium" TextColor="#2E282A" WidthRequest="400"/>
         <ListView x:Name="IngrediencesList" SeparatorVisibility="None" Margin="15, 0, 15, 25">
             <ListView.ItemTemplate>
                 <DataTemplate>
@@ -17,7 +17,7 @@
                                 <ColumnDefinition Width="5*" />
                             </Grid.ColumnDefinitions>
 
-                            <Entry Grid.Column="0" Text="{Binding Name}" TextColor="#2E282A"/>
+                            <Entry Grid.Column="0" Text="{Binding IName}" TextColor="#2E282A"/>
                             <Button Grid.Column="2" Text="-" TextColor="Red" BackgroundColor="#C98BB9" Padding="5" Margin="5" FontSize="Small" FontAttributes="Bold" Clicked="BtnRemoveIngredienceClicked"/>
                             <Entry Grid.Column="4" Text="{Binding Description}" TextColor="#2E282A"/>
                         </Grid>
@@ -25,7 +25,7 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <Editor x:Name="InstructionsEditor" Keyboard="Plain" AutoSize="TextChanges" HeightRequest="200"/>
+        <Editor x:Name="InstructionsEditor" Text="{Binding Instructions}" Keyboard="Plain" AutoSize="TextChanges" HeightRequest="200" Margin="15, 0"/>
         <Grid Margin="10" HeightRequest="85">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="5*"/>

@@ -23,11 +23,11 @@ namespace HEC_Mobile
             NavigationPage.SetHasNavigationBar(this, false);
             ReadRecipesFromFile();
             RecipesList.ItemsSource = Recipe.RecipesToShow;
-            Recipe.AllRecipes.Add(new Recipe("KJifshvbg", "siudhf", new Guid(), new List<Ingredience>()));
+            Recipe.AllRecipes.Add(new Recipe("KJifshvbg", "siudhf", new Guid(), new List<Ingredience>() { new Ingredience { Amount = "500g", IName = "Mouka", ID = new Guid() } }));
             Recipe.AllRecipes.Add(new Recipe("KJifshg", "sdhf", new Guid(), new List<Ingredience>()));
             Recipe.AllRecipes.Add(new Recipe("KJifvbg", "sihf", new Guid(), new List<Ingredience>()));
             Recipe.AllRecipes.Add(new Recipe("KJshvbg", "siud", new Guid(), new List<Ingredience>()));
-            Recipe.UpdateToMatchFilter(new Recipe() { Search = SearchEntry.Text });
+            Recipe.UpdateToMatchFilter(SearchEntry.Text);
             UpdateRecipeListview();
         }
 
@@ -64,24 +64,20 @@ namespace HEC_Mobile
         private void BtnReadClicked(object sender, EventArgs e)
         {
             Button button = (Button)sender;
-            var index = Recipe.AllRecipes.IndexOf((Recipe)button.BindingContext);
-            SearchEntry.Text = index.ToString();
-            Navigation.PushAsync(new ReadRecipe(index));
+            Navigation.PushAsync(new ReadRecipe(Recipe.AllRecipes.IndexOf((Recipe)button.BindingContext)));
             UpdateRecipeListview();
         }
         private void BtnEditClicked(object sender, EventArgs e)
         {
             Button button = (Button)sender;
-            var index = Recipe.AllRecipes.IndexOf((Recipe)button.BindingContext);
-            SearchEntry.Text = index.ToString();
-            Navigation.PushAsync(new EditRecipe(index));
+            Navigation.PushAsync(new EditRecipe(Recipe.AllRecipes.IndexOf((Recipe)button.BindingContext)));
             UpdateRecipeListview();
         }
         private async void BtnDeleteClicked(object sender, EventArgs e)
         {
             Button button = (Button)sender;
             Recipe recipe = (Recipe)button.BindingContext;
-            if (await DisplayAlert("Delete Recipe", $"Do you want to delete {recipe.Name}?", "Yes", "No"))
+            if (await DisplayAlert($"Delete {recipe.Name}", $"Do you want to delete {recipe.Name}?", "Yes", "No"))
             {
                 Recipe.RecipesToShow.Remove(recipe);
                 UpdateRecipeListview();
@@ -89,7 +85,10 @@ namespace HEC_Mobile
         }
         private void BtnNewRecipeClicked(object sender, EventArgs e)
         {
-
+            Recipe.AllRecipes.Add(new Recipe());
+            Navigation.PushAsync(new EditRecipe(Recipe.AllRecipes.Count - 1));
+            Recipe.UpdateToMatchFilter(SearchEntry.Text);
+            UpdateRecipeListview();
         }
         private void BtnImportClicked(object sender, EventArgs e)
         {
@@ -101,11 +100,18 @@ namespace HEC_Mobile
         }
         private void BtnRandomClicked(object sender, EventArgs e)
         {
-
+            int index = new Random().Next(Recipe.AllRecipes.Count);
+            Navigation.PushAsync(new ReadRecipe(index));
         }
         private void BtnSearchClicked(object sender, EventArgs e)
         {
-            Recipe.UpdateToMatchFilter(new Recipe() { Search = SearchEntry.Text});
+            Recipe.UpdateToMatchFilter(SearchEntry.Text);
+            UpdateRecipeListview();
+        }
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            Recipe.UpdateToMatchFilter(SearchEntry.Text);
             UpdateRecipeListview();
         }
     }
@@ -270,10 +276,10 @@ namespace HEC_Mobile
         {
             return Name != string.Empty && Name != null && instructions != string.Empty && instructions != null && ingrediencesStr != string.Empty & ingrediencesStr != null;
         }
-        public static void UpdateToMatchFilter(Recipe recipe)
+        public static void UpdateToMatchFilter(string filter)
         {
             RecipesToShow.Clear();
-            if (recipe.Search == null || recipe.Search == string.Empty)
+            if (filter == null || filter == string.Empty)
             {
                 foreach (var item in AllRecipes)
                 {
@@ -284,7 +290,7 @@ namespace HEC_Mobile
             {
                 foreach (var item in AllRecipes)
                 {
-                    if (item.Name.Contains(recipe.Search.ToLower()))
+                    if (item.Name.ToLower().Contains(filter.ToLower()))
                     {
                         RecipesToShow.Add(item);
                     }

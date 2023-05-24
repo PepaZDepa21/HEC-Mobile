@@ -16,12 +16,14 @@ namespace HEC_Mobile
         {
             InitializeComponent();
             NavigationPage.SetHasNavigationBar(this, false);
-            Recipe recipeToEdit = Recipe.CopyRecipe(Recipe.RecipesToShow[recipeIndex]);
-            
+            Recipe recipeToEdit = Recipe.CopyRecipe(Recipe.AllRecipes[recipeIndex]);
+            BindingContext = recipeToEdit;
+            IngredsList.ItemsSource = recipeToEdit.Ingrediences;
         }
 
         private void BtnBackClicked(object sender, EventArgs e)
         {
+            BindingContext = new Recipe();
             Navigation.PopAsync();
         }
     }

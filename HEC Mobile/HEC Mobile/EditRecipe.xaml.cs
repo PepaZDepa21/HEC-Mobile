@@ -13,26 +13,37 @@ namespace HEC_Mobile
     public partial class EditRecipe : ContentPage
     {
         int index = 0;
+        Recipe recipeToEdit = new Recipe();
         public EditRecipe(int recipeIndex)
         {
             InitializeComponent();
             index = recipeIndex;
             NavigationPage.SetHasNavigationBar(this, false);
-            Recipe recipeToEdit = Recipe.CopyRecipe(Recipe.RecipesToShow[recipeIndex]);
-            InstructionsEditor.Text = recipeIndex.ToString();
+            recipeToEdit = Recipe.CopyRecipe(Recipe.AllRecipes[recipeIndex]);
+            BindingContext = recipeToEdit;
+            IngrediencesList.ItemsSource = recipeToEdit.Ingrediences;
+        }
+
+        public void UpdateIngredienceListview()
+        {
+            IngrediencesList.ItemsSource = null;
+            IngrediencesList.ItemsSource = recipeToEdit.Ingrediences;
         }
 
         private void BtnAddIngredienceClicked(object sender, EventArgs e)
         {
-
+            recipeToEdit.Ingrediences.Add(new Ingredience());
+            UpdateIngredienceListview();
         }
         private void BtnRemoveIngredienceClicked(object sender, EventArgs e)
         {
-
+            Button button = (Button)sender;
+            recipeToEdit.Ingrediences.Remove((Ingredience)button.BindingContext);
+            UpdateIngredienceListview();
         }
         private void BtnSaveClicked(object sender, EventArgs e)
         {
-            
+            Recipe.AllRecipes[index] = Recipe.CopyRecipe(recipeToEdit);
             Navigation.PopAsync();
         }
         private void BtnUndoClicked(object sender, EventArgs e)
