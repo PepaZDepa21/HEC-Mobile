@@ -19,7 +19,7 @@
 
                             <Entry Grid.Column="0" Text="{Binding IName}" TextColor="#2E282A"/>
                             <Button Grid.Column="2" Text="-" TextColor="Red" BackgroundColor="#C98BB9" Padding="5" Margin="5" FontSize="Small" FontAttributes="Bold" Clicked="BtnRemoveIngredienceClicked"/>
-                            <Entry Grid.Column="4" Text="{Binding Description}" TextColor="#2E282A"/>
+                            <Entry Grid.Column="4" Text="{Binding Amount}" TextColor="#2E282A"/>
                         </Grid>
                     </ViewCell>
                 </DataTemplate>

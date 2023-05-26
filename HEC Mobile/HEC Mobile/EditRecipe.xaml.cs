@@ -41,10 +41,17 @@ namespace HEC_Mobile
             recipeToEdit.Ingrediences.Remove((Ingredience)button.BindingContext);
             UpdateIngredienceListview();
         }
-        private void BtnSaveClicked(object sender, EventArgs e)
+        private async void BtnSaveClicked(object sender, EventArgs e)
         {
-            Recipe.AllRecipes[index] = Recipe.CopyRecipe(recipeToEdit);
-            Navigation.PopAsync();
+            if (recipeToEdit.IsOK())
+            {
+                Recipe.AllRecipes[index] = Recipe.CopyRecipe(recipeToEdit);
+                await Navigation.PopAsync();
+            }
+            else
+            {
+                await DisplayAlert("Cannot save recipe", "Some values are in appropriate", "Ok");
+            }
         }
         private void BtnUndoClicked(object sender, EventArgs e)
         {

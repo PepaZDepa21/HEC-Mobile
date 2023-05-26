@@ -11,6 +11,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
+using Xamarin.Essentials;
 using static Xamarin.Forms.Internals.GIFBitmap;
 
 namespace HEC_Mobile
@@ -23,10 +24,6 @@ namespace HEC_Mobile
             NavigationPage.SetHasNavigationBar(this, false);
             ReadRecipesFromFile();
             RecipesList.ItemsSource = Recipe.RecipesToShow;
-            Recipe.AllRecipes.Add(new Recipe("KJifshvbg", "siudhf", new Guid(), new List<Ingredience>() { new Ingredience { Amount = "500g", IName = "Mouka", ID = new Guid() } }));
-            Recipe.AllRecipes.Add(new Recipe("KJifshg", "sdhf", new Guid(), new List<Ingredience>()));
-            Recipe.AllRecipes.Add(new Recipe("KJifvbg", "sihf", new Guid(), new List<Ingredience>()));
-            Recipe.AllRecipes.Add(new Recipe("KJshvbg", "siud", new Guid(), new List<Ingredience>()));
             Recipe.UpdateToMatchFilter(SearchEntry.Text);
             UpdateRecipeListview();
         }
@@ -35,17 +32,24 @@ namespace HEC_Mobile
         {
             RecipesList.ItemsSource = null;
             RecipesList.ItemsSource = Recipe.RecipesToShow;
+            WriteRecipesToFile();
+            Recipe.UpdateToMatchFilter(SearchEntry.Text);
         }
 
         public static void WriteRecipesToFile()
         {
-            using (StreamWriter sw = new StreamWriter(@".\Recipes.txt"))
+            try
             {
-                foreach (var item in Recipe.AllRecipes)
+                using (StreamWriter sw = new StreamWriter(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Recipes.txt")))
                 {
-                    sw.WriteLine(Recipe.SerializeRecipe(item));
+                    foreach (var item in Recipe.AllRecipes)
+                    {
+                        sw.WriteLine(Recipe.SerializeRecipe(item));
+                    }
+                    sw.Flush();
                 }
             }
+            catch (Exception) { }
         }
         public void ReadRecipesFromFile()
         {
@@ -79,7 +83,8 @@ namespace HEC_Mobile
             Recipe recipe = (Recipe)button.BindingContext;
             if (await DisplayAlert($"Delete {recipe.Name}", $"Do you want to delete {recipe.Name}?", "Yes", "No"))
             {
-                Recipe.RecipesToShow.Remove(recipe);
+                Recipe.AllRecipes.Remove(recipe);
+                Recipe.UpdateToMatchFilter(SearchEntry.Text);
                 UpdateRecipeListview();
             }
         }
@@ -88,15 +93,35 @@ namespace HEC_Mobile
             Recipe.AllRecipes.Add(new Recipe());
             Navigation.PushAsync(new EditRecipe(Recipe.AllRecipes.Count - 1));
             Recipe.UpdateToMatchFilter(SearchEntry.Text);
-            UpdateRecipeListview();
         }
-        private void BtnImportClicked(object sender, EventArgs e)
+        private async void BtnImportClicked(object sender, EventArgs e)
         {
+            try
+            {
+                var readStatus = await Permissions.CheckStatusAsync<Permissions.StorageRead>();
 
-        }
-        private void BtnExportClicked(object sender, EventArgs e)
-        {
+                if (readStatus != PermissionStatus.Granted)
+                {
+                    readStatus = await Permissions.RequestAsync<Permissions.StorageRead>();
+                }
 
+                if (readStatus != PermissionStatus.Granted)
+                {
+                    await DisplayAlert("Permission not granted", "Permission to read files not granted", "Ok");
+                    return;
+                }
+                var file = await FilePicker.PickAsync();
+                if (file != null)
+                {
+                    string path = file.FullPath;
+                    File.ReadAllText(path);
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
         private void BtnRandomClicked(object sender, EventArgs e)
         {
@@ -108,6 +133,7 @@ namespace HEC_Mobile
             Recipe.UpdateToMatchFilter(SearchEntry.Text);
             UpdateRecipeListview();
         }
+
         protected override void OnAppearing()
         {
             base.OnAppearing();
@@ -228,7 +254,7 @@ namespace HEC_Mobile
             bool ingrediencesOK = false;
             foreach (var item in Ingrediences)
             {
-                ingrediencesOK = item.IName != string.Empty && item.RegexAmount.IsMatch(item.Amount);
+                ingrediencesOK = item.RegexAmount.IsMatch(item.Amount);
                 if (!ingrediencesOK)
                 {
                     break;
@@ -264,13 +290,32 @@ namespace HEC_Mobile
             }
             return returnList;
         }
+        public static void ListIngredsToStrIngreds(Recipe recipe)
+        {
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < recipe.ingrediences.Count; i++)
+            {
+                if (i == recipe.ingrediences.Count - 1)
+                {
+                    sb.Append(Ingredience.SerializeIngredience(recipe.ingrediences[i]));
+                }
+                else
+                {
+                    sb.Append($"{Ingredience.SerializeIngredience(recipe.ingrediences[i])} ");
+                }
+            }
+            recipe.IngrediencesStr = sb.ToString();
+        }
         public static string SerializeRecipe(Recipe recipe)
         {
+            ListIngredsToStrIngreds(recipe);
             return JsonSerializer.Serialize(recipe);
         }
         public static Recipe DeserializeRecipe(string recipe)
         {
-            return JsonSerializer.Deserialize<Recipe>(recipe);
+            Recipe r = JsonSerializer.Deserialize<Recipe>(recipe);
+            r.Ingrediences = StrIngredsToListIngreds(r.IngrediencesStr);
+            return Recipe.CopyRecipe(r);
         }
         public bool IsEmpty()
         {

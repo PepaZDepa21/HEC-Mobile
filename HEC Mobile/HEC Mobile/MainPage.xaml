@@ -49,13 +49,10 @@
                     <ColumnDefinition Width="11*"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="11*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="11*"/>
                 </Grid.ColumnDefinitions>
                 <Button Grid.Column="0" Text="New Recipe" FontSize="Micro" FontAttributes="Bold" BackgroundColor="#C98BB9" TextColor="#2E282A" Padding="5" Margin="5" Clicked="BtnNewRecipeClicked"/>
                 <Button Grid.Column="2" Text="Import" FontSize="Micro" FontAttributes="Bold" BackgroundColor="#C98BB9" TextColor="#2E282A" Padding="5" Margin="5" Clicked="BtnImportClicked"/>
-                <Button Grid.Column="4" Text="Export" FontSize="Micro" FontAttributes="Bold" BackgroundColor="#C98BB9" TextColor="#2E282A" Padding="5" Margin="5" Clicked="BtnExportClicked"/>
-                <Button Grid.Column="6" Text="Random" FontSize="Micro" FontAttributes="Bold" BackgroundColor="#C98BB9" TextColor="#2E282A" Padding="5" Margin="5" Clicked="BtnRandomClicked"/>
+                <Button Grid.Column="4" Text="Random" FontSize="Micro" FontAttributes="Bold" BackgroundColor="#C98BB9" TextColor="#2E282A" Padding="5" Margin="5" Clicked="BtnRandomClicked"/>
             </Grid>
         </Grid>
     </StackLayout>
