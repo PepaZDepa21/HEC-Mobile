@@ -105,11 +105,11 @@ namespace HEC_Mobile
                     readStatus = await Permissions.RequestAsync<Permissions.StorageRead>();
                 }
 
-                if (readStatus != PermissionStatus.Granted)
-                {
-                    await DisplayAlert("Permission not granted", "Permission to read files not granted", "Ok");
-                    return;
-                }
+                //if (readStatus != PermissionStatus.Granted)
+                //{
+                //    await DisplayAlert("Permission not granted", "Permission to read files not granted", "Ok");
+                //    return;
+                //}
                 var file = await FilePicker.PickAsync();
                 if (file != null)
                 {
@@ -120,7 +120,6 @@ namespace HEC_Mobile
             catch (Exception)
             {
 
-                throw;
             }
         }
         private void BtnRandomClicked(object sender, EventArgs e)
