@@ -13,6 +13,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 using Xamarin.Essentials;
 using static Xamarin.Forms.Internals.GIFBitmap;
+using Xamarin.Forms.PlatformConfiguration;
 
 namespace HEC_Mobile
 {
@@ -36,7 +37,7 @@ namespace HEC_Mobile
             Recipe.UpdateToMatchFilter(SearchEntry.Text);
         }
 
-        public static void WriteRecipesToFile()
+        public void WriteRecipesToFile()
         {
             try
             {
@@ -90,20 +91,19 @@ namespace HEC_Mobile
         }
         private void BtnNewRecipeClicked(object sender, EventArgs e)
         {
-            Recipe.AllRecipes.Add(new Recipe());
-            Navigation.PushAsync(new EditRecipe(Recipe.AllRecipes.Count - 1));
+            Navigation.PushAsync(new EditRecipe(Recipe.AllRecipes.Count));
             Recipe.UpdateToMatchFilter(SearchEntry.Text);
         }
         private async void BtnImportClicked(object sender, EventArgs e)
         {
             try
             {
-                var readStatus = await Permissions.CheckStatusAsync<Permissions.StorageRead>();
+                //var readStatus = await Permissions.CheckStatusAsync<Permissions.StorageRead>();
 
-                if (readStatus != PermissionStatus.Granted)
-                {
-                    readStatus = await Permissions.RequestAsync<Permissions.StorageRead>();
-                }
+                //if (readStatus != PermissionStatus.Granted)
+                //{
+                //    readStatus = await Permissions.RequestAsync<Permissions.StorageRead>();
+                //}
 
                 //if (readStatus != PermissionStatus.Granted)
                 //{
@@ -114,7 +114,10 @@ namespace HEC_Mobile
                 if (file != null)
                 {
                     string path = file.FullPath;
-                    File.ReadAllText(path);
+                    string rec = File.ReadAllText(path);
+                    Recipe r = Recipe.DeserializeRecipe(rec);
+                    Recipe.AllRecipes.Add(r);
+                    UpdateRecipeListview();
                 }
             }
             catch (Exception)
@@ -140,7 +143,7 @@ namespace HEC_Mobile
             UpdateRecipeListview();
         }
     }
-    class Recipe : INotifyPropertyChanged
+    class Recipe
     {
         private string name, instructions, ingrediencesStr, search;
         public Guid ID { get; set; }
@@ -165,7 +168,6 @@ namespace HEC_Mobile
             set
             {
                 search = value;
-                OnPropertyChanged("Search");
             }
         }
 
@@ -184,7 +186,6 @@ namespace HEC_Mobile
             set
             {
                 ingrediences = value;
-                OnPropertyChanged("Ingrediences");
             }
         }
 
@@ -197,7 +198,6 @@ namespace HEC_Mobile
             set
             {
                 name = value;
-                OnPropertyChanged("Name");
             }
         }
 
@@ -210,11 +210,9 @@ namespace HEC_Mobile
             set
             {
                 instructions = value;
-                OnPropertyChanged("Instructions");
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
 
         public Recipe()
         {
@@ -272,13 +270,6 @@ namespace HEC_Mobile
             IngrediencesStr = string.Empty;
         }
 
-        private void OnPropertyChanged(string property)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(property));
-            }
-        }
         public static List<Ingredience> StrIngredsToListIngreds(string str)
         {
             string[] ingreds = str.Split(' ');

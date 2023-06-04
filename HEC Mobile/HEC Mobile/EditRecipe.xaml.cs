@@ -14,12 +14,22 @@ namespace HEC_Mobile
     {
         int index = 0;
         Recipe recipeToEdit = new Recipe();
+        bool addRecipe = false;
         public EditRecipe(int recipeIndex)
         {
             InitializeComponent();
             index = recipeIndex;
             NavigationPage.SetHasNavigationBar(this, false);
-            recipeToEdit = Recipe.CopyRecipe(Recipe.AllRecipes[recipeIndex]);
+            if (Recipe.AllRecipes.Count == index)
+            {
+                recipeToEdit = new Recipe();
+                addRecipe = true;
+            }
+            else
+            {
+                recipeToEdit = Recipe.CopyRecipe(Recipe.AllRecipes[recipeIndex]);
+
+            }
             BindingContext = recipeToEdit;
             IngrediencesList.ItemsSource = recipeToEdit.Ingrediences;
         }
@@ -45,7 +55,14 @@ namespace HEC_Mobile
         {
             if (recipeToEdit.IsOK())
             {
-                Recipe.AllRecipes[index] = Recipe.CopyRecipe(recipeToEdit);
+                if (addRecipe)
+                {
+                    Recipe.AllRecipes.Add(Recipe.CopyRecipe(recipeToEdit));
+                }
+                else
+                {
+                    Recipe.AllRecipes[index] = Recipe.CopyRecipe(recipeToEdit);
+                }
                 await Navigation.PopAsync();
             }
             else
