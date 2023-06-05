@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -20,7 +20,6 @@ namespace HEC_Mobile
             BindingContext = recipeToEdit;
             IngredsList.ItemsSource = recipeToEdit.Ingrediences;
         }
-
         private void BtnBackClicked(object sender, EventArgs e)
         {
             BindingContext = new Recipe();

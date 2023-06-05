@@ -15,8 +15,8 @@
                                 <ColumnDefinition Width="5*" />
                             </Grid.ColumnDefinitions>
 
-                            <Label Grid.Column="0" Text="{Binding IName}" TextColor="#2E282A"/>
-                            <Label Grid.Column="2" Text="{Binding Amount}" HorizontalTextAlignment="End" TextColor="#2E282A"/>
+                            <Label x:Name="IngName" Grid.Column="0" Text="{Binding IName}" TextColor="#2E282A"/>
+                            <Label x:Name="IngAmount" Grid.Column="2" Text="{Binding Amount}" HorizontalTextAlignment="End" TextColor="#2E282A"/>
                         </Grid>
                     </ViewCell>
                 </DataTemplate>
@@ -36,7 +36,7 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="1" Text="Back" FontSize="Micro" FontAttributes="Bold" BackgroundColor="#C98BB9" TextColor="#2E282A" Padding="5" Margin="5" Clicked="BtnBackClicked"/>
+            <Button x:Name="BtnBack" Grid.Column="1" Text="Back" FontSize="Micro" FontAttributes="Bold" BackgroundColor="#C98BB9" TextColor="#2E282A" Padding="5" Margin="5" Clicked="BtnBackClicked"/>
         </Grid>
     </StackLayout>
 </ContentPage>
