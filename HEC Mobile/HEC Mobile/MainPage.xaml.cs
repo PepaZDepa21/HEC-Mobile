@@ -125,10 +125,14 @@ namespace HEC_Mobile
 
             }
         }
-        private void BtnRandomClicked(object sender, EventArgs e)
+        private async void BtnRandomClicked(object sender, EventArgs e)
         {
-            int index = new Random().Next(Recipe.AllRecipes.Count);
-            Navigation.PushAsync(new ReadRecipe(index));
+            try
+            {
+                int index = new Random().Next(Recipe.AllRecipes.Count);
+                await Navigation.PushAsync(new ReadRecipe(index));
+            }
+            catch (Exception) { await DisplayAlert("Unable to select recipe", "To select random recipe you have to have at least 1 saved recipe!", "Ok"); }
         }
         private void BtnSearchClicked(object sender, EventArgs e)
         {
